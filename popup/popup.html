@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Full Page Screenshot</title>
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>📸 Full Page Screenshot</h2>
+            <p>Capture the entire webpage by scrolling automatically</p>
+        </div>
+
+        <div class="controls">
+            <button id="captureBtn" class="capture-button">
+                <span class="icon">📷</span>
+                <span class="text">Capture Full Page</span>
+            </button>
+
+            <div class="status" id="status">
+                Ready to capture
+            </div>
+
+            <div class="progress-container" id="progressContainer" style="display: none;">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0%</div>
+            </div>
+        </div>
+
+        <div class="options">
+            <label class="option">
+                <input type="checkbox" id="includeFixed" checked>
+                <span>Include fixed elements</span>
+            </label>
+
+            <label class="option">
+                <input type="checkbox" id="hideScrollbars" checked>
+                <span>Hide scrollbars</span>
+            </label>
+        </div>
+
+        <div class="footer">
+            <small>Click the button to start capturing the full page screenshot</small>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+</html>
