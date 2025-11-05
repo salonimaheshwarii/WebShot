@@ -71,9 +71,18 @@ class FullPageScreenshot {
     // Scroll to specific position smoothly
     async scrollToPosition(x, y) {
         return new Promise((resolve) => {
-            window.scrollTo(x, y);
-            // Wait a bit for rendering to complete
-            setTimeout(resolve, 200);
+            const currentX = window.pageXOffset || document.documentElement.scrollLeft;
+            const currentY = window.pageYOffset || document.documentElement.scrollTop;
+
+            // Only scroll if we're not already at the target position
+            if (Math.abs(currentX - x) > 5 || Math.abs(currentY - y) > 5) {
+                window.scrollTo(x, y);
+                // Wait a bit for rendering to complete after scroll
+                setTimeout(resolve, 400);
+            } else {
+                // Already at position, just wait a short time for any pending renders
+                setTimeout(resolve, 100);
+            }
         });
     }
 
@@ -155,8 +164,14 @@ class FullPageScreenshot {
                     progress
                 });
 
-                // Scroll to position
-                await this.scrollToPosition(position.x, position.y);
+                // Scroll to position (with smart positioning for first capture)
+                if (i === 0) {
+                    // For first capture, ensure we're at the exact top-left
+                    window.scrollTo(0, 0);
+                    await new Promise(resolve => setTimeout(resolve, 400)); // Longer wait for first position
+                } else {
+                    await this.scrollToPosition(position.x, position.y);
+                }
 
                 // Capture screenshot
                 const dataUrl = await this.captureScreenshot();
